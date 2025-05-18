@@ -1,6 +1,6 @@
 # Maintainer: Your Name <your@email.com>
 pkgname=katachi
-pkgver=1.0.0
+pkgver=0.1.0
 pkgrel=1
 pkgdesc="A(nother) font browser for Linux"
 arch=('x86_64')
