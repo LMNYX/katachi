@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs'
 import fontkit from 'fontkit'
+import { Font, FontCollection } from 'fontkit'
+
 import * as path from 'path'
-import os from 'os'
 
 const fontExtensions = new Set([
   '.ttf',
@@ -12,6 +13,10 @@ const fontExtensions = new Set([
   '.pfb',
   '.fnt',
 ])
+
+function isFont(obj: Font | FontCollection): obj is Font {
+  return (obj as Font).postscriptName !== undefined;
+}
 
 export default async function listFontsRecursive(
   dir: string,
@@ -99,6 +104,9 @@ export async function getFontInfo(fontPath: string): Promise<object | null> {
   try {
     const font = await fontkit.open(fontPath)
 
+    if (!isFont(font))
+      return {};
+
     const supportsCyrillic = checkUnicodeRangeSupport(font, [0x0400, 0x04FF])
     const supportsJapanese =
       checkUnicodeRangeSupport(font, [0x3040, 0x309F]) || // Hiragana
@@ -117,7 +125,6 @@ export async function getFontInfo(fontPath: string): Promise<object | null> {
         fullname: font.fullName,
         version: font.version
       },
-      variations: font.namedVariations,
       style: getFontWeightStyle(font.subfamilyName),
       path: fontPath,
       supportsCyrillic,

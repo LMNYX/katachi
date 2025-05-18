@@ -4,38 +4,52 @@ import Notification from './Notification.vue'
 
 const props = defineProps<{ filter: string }>()
 
-function spawnNotification(message) {
+interface FontInfo {
+  fontNames: {
+    family: string
+    subfamily: string
+    postscript: string
+    fullname: string
+    version: string
+  }
+  style: {
+    style: string
+    weight: number
+  }
+  path: string
+  supportsCyrillic: boolean
+  supportsJapanese: boolean
+  supportsKorean: boolean
+  supportsChinese: boolean
+}
+
+function spawnNotification(message: string): void {
   const container = document.createElement('div')
   document.body.appendChild(container)
 
+  const visible = ref(true)
+
   const app = createApp({
     setup() {
-      const visible = ref(true)
-
-      // Automatically hide after 3 seconds
       setTimeout(() => {
         visible.value = false
       }, 3000)
 
-      return () =>
-        visible.value
-          ? h(Notification, null, { default: () => message })
-          : null
+      return () => (visible.value ? h(Notification, null, { default: () => message }) : null)
     }
   })
 
   const vm = app.mount(container)
 
-  // Clean up after transition ends (assuming your Notification has transition)
   vm.$el.addEventListener('transitionend', () => {
-    if (!vm.visible) {
+    if (!visible.value) {
       app.unmount()
       container.remove()
     }
   })
 }
 
-const fonts = ref<string[]>([])
+const fonts = ref<FontInfo[]>([])
 const loading = ref(true)
 
 const ipcGetSystemFonts = async (): Promise<void> => {
@@ -46,18 +60,24 @@ const ipcGetSystemFonts = async (): Promise<void> => {
   }, 555)
 }
 
-async function copyInfo(id: number, dataType: string): any
-{
+async function copyInfo(id: number, dataType: string): Promise<boolean | void> {
   console.log(id, dataType)
-  spawnNotification("Copied " + dataType);
-  if (dataType in fonts.value[id])
-    return await navigator.clipboard.writeText(fonts.value[id][dataType])
+  spawnNotification('Copied ' + dataType)
+
+  if (dataType in fonts.value[id]) {
+    const value = fonts.value[id][dataType as keyof FontInfo]
+    if (typeof value === 'string') {
+      return navigator.clipboard.writeText(value)
+    }
+  }
 
   switch (dataType) {
     case 'full family name':
-      return await navigator.clipboard.writeText(fonts.value[id].fontNames.fullname)
+      return navigator.clipboard.writeText(fonts.value[id].fontNames.fullname)
     case 'css':
-      return await navigator.clipboard.writeText(`font-family: '${fonts.value[id].fontNames.family}';\nfont-style: ${fonts.value[id].style.style};\nfont-weight: ${fonts.value[id].style.weight};`)
+      return navigator.clipboard.writeText(
+        `font-family: '${fonts.value[id].fontNames.family}';\nfont-style: ${fonts.value[id].style.style};\nfont-weight: ${fonts.value[id].style.weight};`
+      )
     default:
       return false
   }
@@ -67,8 +87,8 @@ onMounted(() => {
   ipcGetSystemFonts()
 })
 
-const filteredFonts = computed(() =>
-  fonts.value.filter(font => {
+const filteredFonts = computed<FontInfo[]>(() =>
+  fonts.value.filter((font) => {
     const searchString = props.filter.toLowerCase()
     const names = font.fontNames
 
@@ -81,8 +101,8 @@ const filteredFonts = computed(() =>
     )
   })
 )
-
 </script>
+
 <template>
   <div class="fonts">
     <span class="listing-topbar">{{ filteredFonts.length }} fonts</span>
@@ -93,7 +113,9 @@ const filteredFonts = computed(() =>
           <button style="cursor: copy" @click="copyInfo(index, 'css')">css</button>
           <button @click="spawnNotification('Not yet implemented!')">...</button>
         </div>
-        <span class="font-name" @click="copyInfo(index, 'full family name')">{{ font.fontNames.fullname }}</span>
+        <span class="font-name" @click="copyInfo(index, 'full family name')">{{
+          font.fontNames.fullname
+        }}</span>
         <span
           :style="{
             fontFamily: font.fontNames.family,

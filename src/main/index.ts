@@ -1,9 +1,8 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import os from "os"
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import listFontsRecursive, { getFontInfo } from './fonts';
-const { exec } = require('child_process')
+import os from 'os'
+import listFontsRecursive, { getFontInfo } from './fonts'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
