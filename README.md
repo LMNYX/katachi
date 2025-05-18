@@ -4,7 +4,7 @@ A(nother) font browser for Linux.
 
 ## Preview
 
-![image](https://github.com/user-attachments/assets/9adeb98c-cbb8-4f72-a189-27ab47fa3afd)
+![image](https://github.com/user-attachments/assets/1fe35987-bb7f-4516-8b6e-accd578f00a8)
 
 ## Recommended IDE Setup
 
