@@ -1,9 +1,9 @@
 {
   "name": "katachi",
-  "version": "0.1.0",
-  "description": "An Electron application with Vue and TypeScript",
+  "version": "0.1.1",
+  "description": "A(nother) font browser for Linux.",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "mishashto <mishashto.com>",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
