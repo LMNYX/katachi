@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import os from "os"
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import listFontsRecursive from './fonts';
+import listFontsRecursive, { getFontInfo } from './fonts';
 const { exec } = require('child_process')
 import icon from '../../resources/icon.png?asset'
 
@@ -54,12 +54,27 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
   ipcMain.handle('get-system-fonts', async () => {
-    let packageFonts = await listFontsRecursive("/usr/share/fonts");
-    let manualSystemFonts = await listFontsRecursive("/usr/local/share/fonts");
-    let flatpakFonts = await listFontsRecursive("/run/host/fonts");
-    let flatpakUserFonts = await listFontsRecursive("/run/host/user-fonts");
-    let userFonts = await listFontsRecursive(`${os.userInfo().homedir}/.local/share/fonts`);
-    return [].concat(packageFonts, manualSystemFonts, flatpakFonts, flatpakUserFonts, userFonts);
+    const fontDirs = [
+      '/usr/share/fonts',
+      '/usr/local/share/fonts',
+      '/run/host/fonts',
+      '/run/host/user-fonts',
+      `${os.userInfo().homedir}/.local/share/fonts`,
+    ]
+
+    const allPathsArrays = await Promise.all(
+      fontDirs.map(dir => listFontsRecursive(dir))
+    )
+
+    const allFontPaths = allPathsArrays.flat()
+
+    // Just run them all in parallel, no concurrency limit
+    const fontInfoResults = await Promise.all(
+      allFontPaths.map(fontPath => getFontInfo(fontPath))
+    )
+
+    // Filter out any nulls due to failed font opens
+    return fontInfoResults.filter(Boolean)
   })
 
   createWindow()
