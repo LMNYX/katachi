@@ -17,6 +17,7 @@ body,
 * {
   color: white;
   font-family: 'NotoSans';
+  user-select: none;
 }
 
 ::-webkit-scrollbar {

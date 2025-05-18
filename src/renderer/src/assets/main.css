@@ -91,3 +91,42 @@
   overflow-y: auto;
   padding-right: 0.5rem;
 }
+
+.listing>div {
+  position: relative;
+  padding: 6px;
+  height: 128px;
+  border-bottom: 1px solid rgb(27, 27, 27);
+  margin-bottom: 4px;
+}
+
+.listing>div>button {
+  position: absolute;
+  cursor: pointer;
+  right: 0px;
+  top: 0px;
+  border: none;
+  background: #222;
+  font-weight: 800;
+  width: 32px;
+  height: 32px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.listing>div>button:hover {
+  background-color: rgb(27, 27, 27);
+}
+
+.listing>div>span.font-name {
+  display: block;
+}
+
+.listing>div>span.font-example {
+  display: block;
+  padding: 48px 0;
+  outline: none;
+  max-height: 96px;
+}
