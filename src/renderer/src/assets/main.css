@@ -90,6 +90,7 @@
   flex: 1;
   overflow-y: auto;
   padding-right: 0.5rem;
+  margin-top: 3px;
 }
 
 .listing>div {
@@ -136,4 +137,9 @@
   padding: 48px 0;
   outline: none;
   max-height: 96px;
+}
+
+.fonts>.listing-topbar {
+  width: 100%;
+  border-bottom: 1px solid rgb(27, 27, 27);
 }
