@@ -52,6 +52,8 @@ async function copyInfo(id: number, dataType: string): any
     return await navigator.clipboard.writeText(fonts.value[id][dataType])
 
   switch (dataType) {
+    case 'full family name':
+      return await navigator.clipboard.writeText(fonts.value[id].fontNames.fullname)
     case 'css':
       return await navigator.clipboard.writeText(`font-family: '${fonts.value[id].fontNames.family}';\nfont-style: ${fonts.value[id].style.style};\nfont-weight: ${fonts.value[id].style.weight};`)
     default:
@@ -73,7 +75,7 @@ onMounted(() => {
           <button style="cursor: copy" @click="copyInfo(index, 'css')">css</button>
           <button>...</button>
         </div>
-        <span class="font-name">{{ font.fontNames.fullname }}</span>
+        <span class="font-name" @click="copyInfo(index, 'full family name')">{{ font.fontNames.fullname }}</span>
         <span
           :style="{
             fontFamily: font.fontNames.family,
