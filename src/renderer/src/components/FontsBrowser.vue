@@ -1,5 +1,37 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { createApp, h, ref, onMounted } from 'vue'
+import Notification from './Notification.vue'
+
+function spawnNotification(message) {
+  const container = document.createElement('div')
+  document.body.appendChild(container)
+
+  const app = createApp({
+    setup() {
+      const visible = ref(true)
+
+      // Automatically hide after 3 seconds
+      setTimeout(() => {
+        visible.value = false
+      }, 3000)
+
+      return () =>
+        visible.value
+          ? h(Notification, null, { default: () => message })
+          : null
+    }
+  })
+
+  const vm = app.mount(container)
+
+  // Clean up after transition ends (assuming your Notification has transition)
+  vm.$el.addEventListener('transitionend', () => {
+    if (!vm.visible) {
+      app.unmount()
+      container.remove()
+    }
+  })
+}
 
 const fonts = ref<string[]>([])
 const loading = ref(true)
@@ -15,6 +47,7 @@ const ipcGetSystemFonts = async (): Promise<void> => {
 async function copyInfo(id: number, dataType: string): any
 {
   console.log(id, dataType)
+  spawnNotification("Copied " + dataType);
   if (dataType in fonts.value[id])
     return await navigator.clipboard.writeText(fonts.value[id][dataType])
 
