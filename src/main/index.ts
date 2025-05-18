@@ -58,19 +58,15 @@ app.whenReady().then(() => {
       '/usr/local/share/fonts',
       '/run/host/fonts',
       '/run/host/user-fonts',
-      `${os.userInfo().homedir}/.local/share/fonts`,
+      `${os.userInfo().homedir}/.local/share/fonts`
     ]
 
-    const allPathsArrays = await Promise.all(
-      fontDirs.map(dir => listFontsRecursive(dir))
-    )
+    const allPathsArrays = await Promise.all(fontDirs.map((dir) => listFontsRecursive(dir)))
 
     const allFontPaths = allPathsArrays.flat()
 
     // Just run them all in parallel, no concurrency limit
-    const fontInfoResults = await Promise.all(
-      allFontPaths.map(fontPath => getFontInfo(fontPath))
-    )
+    const fontInfoResults = await Promise.all(allFontPaths.map((fontPath) => getFontInfo(fontPath)))
 
     // Filter out any nulls due to failed font opens
     return fontInfoResults.filter(Boolean)

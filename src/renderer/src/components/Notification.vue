@@ -20,6 +20,7 @@ onMounted(() => {
 })
 
 // Emits event to parent or can remove itself from DOM if managed by parent
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const removeSelf = () => {
   //
 }
