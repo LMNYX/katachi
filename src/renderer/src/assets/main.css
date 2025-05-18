@@ -1,11 +1,18 @@
 @import './base.css';
 
 .topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  /* Ensure it's above other content */
   display: flex;
   align-items: center;
-  width: 100%;
   height: 48px;
   border-bottom: 1px solid rgb(27, 27, 27);
+  background-color: #222;
+  /* Ensure background doesn't blend with page */
 }
 
 .topbar>button {
@@ -59,4 +66,28 @@
 
 .topbar .menu-button:hover {
   background: rgb(27, 27, 27);
+}
+
+.fonts {
+  margin-top: 48px;
+  /* push below the fixed topbar */
+  height: calc(100% - 48px);
+  /* fill the remaining height */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+/* Place the font count at the top and let listing fill the rest */
+.fonts>span {
+  flex-shrink: 0;
+  padding: 0.5rem;
+}
+
+/* Let listing fill remaining space and scroll if needed */
+.listing {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
