@@ -2,6 +2,10 @@
 
 A(nother) font browser for Linux.
 
+## Preview
+
+![image](https://github.com/user-attachments/assets/9adeb98c-cbb8-4f72-a189-27ab47fa3afd)
+
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
