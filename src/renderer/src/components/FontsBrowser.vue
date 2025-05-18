@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { createApp, h, ref, onMounted } from 'vue'
+import { defineProps, computed, createApp, h, ref, onMounted } from 'vue'
 import Notification from './Notification.vue'
+
+const props = defineProps<{ filter: string }>()
 
 function spawnNotification(message) {
   const container = document.createElement('div')
@@ -64,12 +66,28 @@ async function copyInfo(id: number, dataType: string): any
 onMounted(() => {
   ipcGetSystemFonts()
 })
+
+const filteredFonts = computed(() =>
+  fonts.value.filter(font => {
+    const searchString = props.filter.toLowerCase()
+    const names = font.fontNames
+
+    return (
+      names.family?.toLowerCase().includes(searchString) ||
+      names.subfamily?.toLowerCase().includes(searchString) ||
+      names.postscript?.toLowerCase().includes(searchString) ||
+      names.fullname?.toLowerCase().includes(searchString) ||
+      names.version?.toLowerCase().includes(searchString)
+    )
+  })
+)
+
 </script>
 <template>
   <div class="fonts">
-    <span>{{ fonts.length }} fonts {{ _fonts }}</span>
+    <span>{{ filteredFonts.length }} fonts</span>
     <div class="listing">
-      <div v-for="(font, index) in fonts" :key="index" :data-id="index">
+      <div v-for="(font, index) in filteredFonts" :key="index" :data-id="index">
         <div class="topright">
           <button style="cursor: copy" @click="copyInfo(index, 'path')">path</button>
           <button style="cursor: copy" @click="copyInfo(index, 'css')">css</button>
