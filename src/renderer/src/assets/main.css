@@ -1,0 +1,62 @@
+@import './base.css';
+
+.topbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid rgb(27, 27, 27);
+}
+
+.topbar>button {
+  vertical-align: middle;
+  height: 100%;
+  background: #222;
+  border: none;
+  color: rgb(216, 216, 216);
+  padding: 0 16px;
+  border-right: 1px solid rgb(27, 27, 27);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s;
+}
+
+.topbar>button:hover {
+  background: rgb(27, 27, 27);
+}
+
+.topbar>input {
+  flex: 1;
+  height: 99%;
+  background: #1d1d1d;
+  padding: 0 16px;
+  border: none;
+  border-right: 1px solid rgb(27, 27, 27);
+  color: white;
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.topbar>input:focus {
+  background: #1a1a1a;
+}
+
+/* Right-aligned three dots button */
+.topbar .menu-button {
+  height: 100%;
+  background: #222;
+  border: none;
+  color: rgb(216, 216, 216);
+  padding: 0 16px;
+  border-left: 1px solid rgb(27, 27, 27);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.topbar .menu-button:hover {
+  background: rgb(27, 27, 27);
+}

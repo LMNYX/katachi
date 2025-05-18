@@ -1,0 +1,17 @@
+html,
+body {
+  background-color: #222;
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  font-style: normal;
+  src: url(./NotoSans.ttf) format('truetype');
+}
+
+* {
+  color: white;
+  font-family: 'NotoSans';
+}
