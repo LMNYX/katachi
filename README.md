@@ -1,6 +1,6 @@
 # katachi
 
-An Electron application with Vue and TypeScript
+A(nother) font browser for Linux.
 
 ## Recommended IDE Setup
 

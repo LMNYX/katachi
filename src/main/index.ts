@@ -1,6 +1,9 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import os from "os"
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import listFontsRecursive from './fonts';
+const { exec } = require('child_process')
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
@@ -25,7 +28,6 @@ function createWindow(): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
-
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -40,7 +42,7 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('me.reze.katachi')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -51,6 +53,14 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('get-system-fonts', async () => {
+    let packageFonts = await listFontsRecursive("/usr/share/fonts");
+    let manualSystemFonts = await listFontsRecursive("/usr/local/share/fonts");
+    let flatpakFonts = await listFontsRecursive("/run/host/fonts");
+    let flatpakUserFonts = await listFontsRecursive("/run/host/user-fonts");
+    let userFonts = await listFontsRecursive(`${os.userInfo().homedir}/.local/share/fonts`);
+    return [].concat(packageFonts, manualSystemFonts, flatpakFonts, flatpakUserFonts, userFonts);
+  })
 
   createWindow()
 
