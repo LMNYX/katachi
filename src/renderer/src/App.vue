@@ -5,7 +5,6 @@ import FontsBrowser from './components/FontsBrowser.vue'
 
 const filterText = ref('')
 const handleFilterChange = (newFilter: string) => {
-  console.log(newFilter)
   filterText.value = newFilter
 }
 </script>

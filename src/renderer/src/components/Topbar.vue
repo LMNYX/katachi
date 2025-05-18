@@ -12,7 +12,7 @@ const onInput = (event: Event) => {
 <template>
   <div class="topbar">
     <button>katachi</button>
-    <input placeholder="Search fonts" @input="onInput" />
+    <input placeholder="Search fonts" @input="onInput" spellcheck="false" />
     <button class="menu-button">⋯</button>
   </div>
 </template>

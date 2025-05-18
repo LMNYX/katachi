@@ -85,13 +85,13 @@ const filteredFonts = computed(() =>
 </script>
 <template>
   <div class="fonts">
-    <span>{{ filteredFonts.length }} fonts</span>
+    <span class="listing-topbar">{{ filteredFonts.length }} fonts</span>
     <div class="listing">
       <div v-for="(font, index) in filteredFonts" :key="index" :data-id="index">
         <div class="topright">
           <button style="cursor: copy" @click="copyInfo(index, 'path')">path</button>
           <button style="cursor: copy" @click="copyInfo(index, 'css')">css</button>
-          <button>...</button>
+          <button @click="spawnNotification('Not yet implemented!')">...</button>
         </div>
         <span class="font-name" @click="copyInfo(index, 'full family name')">{{ font.fontNames.fullname }}</span>
         <span
