@@ -100,28 +100,34 @@
   margin-bottom: 4px;
 }
 
-.listing>div>button {
+.listing>div>.topright {
   position: absolute;
-  cursor: pointer;
   right: 0px;
   top: 0px;
+}
+
+.listing>div>.topright>button {
+
+  cursor: pointer;
   border: none;
   background: #222;
   font-weight: 800;
-  width: 32px;
   height: 32px;
+  vertical-align: middle;
+  margin: 0 2px;
 
   outline: none;
 
   transition: 0.2s;
 }
 
-.listing>div>button:hover {
+.listing>div>.topright>button:hover {
   background-color: rgb(27, 27, 27);
 }
 
 .listing>div>span.font-name {
   display: block;
+  cursor: copy;
 }
 
 .listing>div>span.font-example {

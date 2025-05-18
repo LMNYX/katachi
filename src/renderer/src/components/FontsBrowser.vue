@@ -12,6 +12,20 @@ const ipcGetSystemFonts = async (): Promise<void> => {
   }, 555)
 }
 
+async function copyInfo(id: number, dataType: string): any
+{
+  console.log(id, dataType)
+  if (dataType in fonts.value[id])
+    return await navigator.clipboard.writeText(fonts.value[id][dataType])
+
+  switch (dataType) {
+    case 'css':
+      return await navigator.clipboard.writeText(`font-family: '${fonts.value[id].fontNames.family}';\nfont-style: ${fonts.value[id].style.style};\nfont-weight: ${fonts.value[id].style.weight};`)
+    default:
+      return false
+  }
+}
+
 onMounted(() => {
   ipcGetSystemFonts()
 })
@@ -20,8 +34,12 @@ onMounted(() => {
   <div class="fonts">
     <span>{{ fonts.length }} fonts {{ _fonts }}</span>
     <div class="listing">
-      <div v-for="(font, index) in fonts" :key="index">
-        <button>...</button>
+      <div v-for="(font, index) in fonts" :key="index" :data-id="index">
+        <div class="topright">
+          <button style="cursor: copy" @click="copyInfo(index, 'path')">path</button>
+          <button style="cursor: copy" @click="copyInfo(index, 'css')">css</button>
+          <button>...</button>
+        </div>
         <span class="font-name">{{ font.fontNames.fullname }}</span>
         <span
           :style="{
