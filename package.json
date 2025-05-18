@@ -1,6 +1,6 @@
 {
   "name": "katachi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A(nother) font browser for Linux.",
   "main": "./out/main/index.js",
   "author": "mishashto <mishashto.com>",

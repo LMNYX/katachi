@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.mishashto.katachi
 productName: katachi
 directories:
   buildResources: build
@@ -33,11 +33,12 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: mishashto.com
   category: Utility
+  icon: build/icon
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
   provider: generic
-  url: https://example.com/auto-updates
+  url: https://github.com/LMNYX/katachi
